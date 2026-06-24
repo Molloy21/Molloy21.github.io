@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ronin Animatics — Virtuelle Fotomodelle für Ihre Modemarke</title>
+<meta name="description" content="Ein Gesicht. Unendlich viele Momente. Nur für Ihre Marke. Virtuelles Model-Atelier — DACH-Raum.">
+<style>
+@font-face{font-family:'Playfair Display';src:url('fonts/PlayfairDisplay-Regular.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Playfair Display';src:url('fonts/PlayfairDisplay-Italic.ttf') format('truetype');font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:'Playfair Display';src:url('fonts/PlayfairDisplay-Medium.ttf') format('truetype');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'Playfair Display';src:url('fonts/PlayfairDisplay-Bold.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'Playfair Display';src:url('fonts/PlayfairDisplay-BoldItalic.ttf') format('truetype');font-weight:700;font-style:italic;font-display:swap}
+@font-face{font-family:'Lato';src:url('fonts/Lato-Light.ttf') format('truetype');font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:'Lato';src:url('fonts/Lato-Regular.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'Lato';src:url('fonts/Lato-Bold.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url('fonts/IBMPlexMono-Regular.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'IBM Plex Mono';src:url('fonts/IBMPlexMono-Medium.ttf') format('truetype');font-weight:500;font-style:normal;font-display:swap}
+</style>
+<style>
+  :root{
+    --ink:#16140F;--paper:#FCFCFA;--paper-2:#F4F3EF;
+    --hanko:#C0392B;--line:rgba(22,20,15,.14);--muted:#6E6A60;
+    --display:'Playfair Display',serif;--body:'Lato',sans-serif;--mono:'IBM Plex Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{font-family:var(--body);background:var(--paper);color:var(--ink);
+    line-height:1.7;font-size:17px;font-weight:400;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+
+  /* ── Scroll Animations ── */
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease;}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+  .reveal-delay-1{transition-delay:.1s}
+  .reveal-delay-2{transition-delay:.2s}
+  .reveal-delay-3{transition-delay:.3s}
+
+  /* ── Header ── */
+  header{position:sticky;top:0;z-index:50;background:rgba(252,252,250,.92);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
+  .seal{width:34px;height:34px;background:var(--hanko);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;border-radius:4px;font-family:var(--display);font-weight:700;}
+  .brand-name{font-family:var(--mono);font-size:13px;letter-spacing:.18em;text-transform:uppercase}
+  .cta-mini{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink);text-decoration:none;border:1px solid var(--ink);
+    padding:9px 18px;border-radius:2px;transition:background .2s,color .2s;}
+  .cta-mini:hover{background:var(--ink);color:var(--paper)}
+  .lang-toggle{display:flex;align-items:center;gap:2px;margin-right:12px;}
+  .lang-btn{font-family:var(--mono);font-size:11px;letter-spacing:.10em;text-transform:uppercase;
+    background:none;border:none;cursor:pointer;padding:5px 8px;border-radius:2px;
+    color:var(--muted);transition:color .15s,background .15s;}
+  .lang-btn.active{color:var(--ink);background:var(--paper-2);font-weight:700;}
+  .lang-btn:hover{color:var(--ink);}
+  .nav-right{display:flex;align-items:center;gap:8px;}
+  [data-de],[data-en]{transition:opacity .2s ease;}
+  body.lang-en [data-de]{display:none}
+  body.lang-de [data-en]{display:none}
+
+  /* ── Hero ── */
+  .hero{position:relative;min-height:92vh;display:flex;align-items:center;overflow:hidden;}
+  .hero-bg{position:absolute;inset:0;z-index:0;}
+  .hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;}
+  .hero-bg::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(to right,rgba(22,20,15,.82) 0%,rgba(22,20,15,.55) 55%,rgba(22,20,15,.15) 100%);}
+  .hero-content{position:relative;z-index:1;padding:80px 0;max-width:600px;}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;
+    text-transform:uppercase;color:rgba(192,57,43,.9);margin-bottom:20px;}
+  h1{font-family:var(--display);font-weight:500;
+    font-size:clamp(2.6rem,5.5vw,4.4rem);line-height:1.06;letter-spacing:-.01em;color:var(--paper);}
+  h1 em{font-style:italic;font-weight:700;color:#fff;}
+  .hero-sub{margin-top:24px;font-size:18px;color:rgba(252,252,250,.8);max-width:46ch;font-weight:300;}
+  .hero-cta{margin-top:36px;display:flex;gap:16px;align-items:center;flex-wrap:wrap;}
+  .btn{display:inline-block;font-family:var(--mono);font-size:13px;
+    letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
+    padding:15px 32px;border-radius:2px;transition:transform .15s,box-shadow .15s;}
+  .btn-primary{background:var(--hanko);color:#fff;}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(192,57,43,.4);}
+  .btn-secondary{border:1px solid rgba(252,252,250,.6);color:var(--paper);background:transparent;}
+  .btn-secondary:hover{background:rgba(252,252,250,.12);}
+
+  /* ── Sections ── */
+  section{padding:80px 0;border-bottom:1px solid var(--line)}
+  .sec-label{font-family:var(--mono);font-size:12px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--hanko);margin-bottom:16px;}
+  h2{font-family:var(--display);font-weight:500;
+    font-size:clamp(1.8rem,3.4vw,2.6rem);line-height:1.15;margin-bottom:24px;}
+
+  /* ── Statement ── */
+  .statement-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;}
+  .statement p.lead{font-family:var(--display);font-size:clamp(1.3rem,2.4vw,1.75rem);
+    line-height:1.55;max-width:32ch;font-weight:400;}
+  .statement .honesty{margin-top:32px;font-family:var(--body);font-size:15px;font-weight:400;
+    color:var(--muted);max-width:56ch;line-height:1.85;
+    border-left:2px solid var(--hanko);padding-left:20px;}
+  .statement-video{border-radius:3px;overflow:hidden;
+    box-shadow:8px 8px 0 var(--paper-2);aspect-ratio:4/5;}
+  .statement-video video{width:100%;height:100%;object-fit:cover;display:block;}
+  .statement-video img{width:100%;height:100%;object-fit:cover;display:block;}
+  @media(max-width:880px){.statement-grid{grid-template-columns:1fr;}
+    .statement-video{max-width:420px;}}
+
+  /* ── Atmosphere Banner ── */
+  .banner{padding:0;border-bottom:1px solid var(--line);overflow:hidden;max-height:480px;}
+  .banner img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;
+    filter:brightness(.92);}
+
+  /* ── Prozess ── */
+  .prozess-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;margin-top:48px}
+  .prozess-step{padding:32px 28px;border:1px solid var(--line);border-radius:3px;background:#fff}
+  .prozess-num{font-family:var(--display);font-size:2.8rem;font-weight:700;
+    color:var(--hanko);opacity:.18;line-height:1;margin-bottom:16px;}
+  .prozess-step h3{font-family:var(--display);font-size:1.2rem;font-weight:700;
+    margin-bottom:12px;line-height:1.3;}
+  .prozess-step p{font-size:15px;color:var(--muted);line-height:1.75}
+  @media(max-width:880px){.prozess-grid{grid-template-columns:1fr}}
+
+  /* ── Roster ── */
+  .roster{background:var(--paper-2)}
+  .roster-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+    gap:40px 32px;margin-top:48px}
+  .card{background:#fff;padding:14px 14px 18px;border-radius:2px;
+    box-shadow:0 3px 14px rgba(22,20,15,.10),0 1px 3px rgba(22,20,15,.08);
+    transition:transform .25s ease,box-shadow .25s ease;position:relative;cursor:pointer;}
+  .card:nth-child(odd){transform:rotate(-1.2deg)}
+  .card:nth-child(even){transform:rotate(1deg)}
+  .card:hover{transform:rotate(0) translateY(-4px);box-shadow:0 8px 28px rgba(22,20,15,.16);}
+  .card:hover .card-stamp{opacity:1;transform:rotate(-8deg) scale(1);}
+  @media(prefers-reduced-motion:reduce){
+    .card,.card:nth-child(odd),.card:nth-child(even){transform:none;transition:none}}
+  .card::before{content:"";position:absolute;top:-9px;left:50%;
+    transform:translateX(-50%) rotate(-2deg);width:64px;height:18px;
+    background:rgba(192,57,43,.16);
+    border-left:1px solid rgba(192,57,43,.1);border-right:1px solid rgba(192,57,43,.1);}
+  .card-stamp{position:absolute;bottom:12px;right:12px;
+    width:36px;height:36px;border-radius:50%;border:2px solid var(--hanko);
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--display);font-size:10px;font-weight:700;color:var(--hanko);
+    opacity:0;transform:rotate(-8deg) scale(.8);transition:opacity .2s,transform .2s;
+    letter-spacing:.05em;text-align:center;line-height:1.1;}
+  .card-photo{aspect-ratio:3/4;overflow:hidden;background:var(--paper-2)}
+  .card-photo img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;
+    transition:transform .4s ease;}
+  .card:hover .card-photo img{transform:scale(1.04);}
+  .card-meta{padding-top:14px}
+  .card-name{font-family:var(--display);font-size:1.25rem;font-weight:700}
+  .card-tags{font-family:var(--mono);font-size:12px;color:var(--muted);
+    letter-spacing:.06em;margin-top:4px}
+  .card.commission{display:flex;flex-direction:column;align-items:center;
+    justify-content:center;text-align:center;min-height:340px;
+    background:var(--ink);color:var(--paper);cursor:default;}
+  .card.commission::before{background:rgba(252,252,250,.18)}
+  .card.commission .big{font-family:var(--display);font-size:2.6rem;font-weight:500;
+    color:var(--hanko);filter:brightness(1.5)}
+  .card.commission p{font-family:var(--mono);font-size:13px;line-height:1.7;
+    margin-top:12px;max-width:22ch;color:rgba(252,252,250,.75)}
+
+  /* ── Lightbox ── */
+  .lightbox-overlay{display:none;position:fixed;inset:0;z-index:200;
+    background:rgba(22,20,15,.88);backdrop-filter:blur(4px);
+    align-items:center;justify-content:center;padding:24px;}
+  .lightbox-overlay.open{display:flex}
+  .lightbox-box{background:var(--paper);border-radius:4px;
+    max-width:1100px;width:100%;max-height:92vh;overflow-y:auto;
+    position:relative;padding:40px 40px 48px;}
+  .lightbox-close{position:absolute;top:16px;right:20px;font-size:24px;line-height:1;
+    cursor:pointer;color:var(--muted);background:none;border:none;
+    font-family:var(--body);transition:color .15s;}
+  .lightbox-close:hover{color:var(--ink)}
+  .lightbox-header{margin-bottom:28px}
+  .lightbox-name{font-family:var(--display);font-size:1.8rem;font-weight:700;
+    font-style:italic;margin-bottom:4px;}
+  .lightbox-tags{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.08em;}
+  .lightbox-content{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;}
+  .lightbox-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+  .lightbox-gallery img{width:100%;aspect-ratio:3/4;object-fit:cover;
+    object-position:center top;border-radius:2px;display:block;cursor:zoom-in;
+    transition:opacity .2s,transform .2s;}
+  .lightbox-gallery img:hover{opacity:.88;transform:scale(1.02);}
+  .lightbox-video{width:100%;border-radius:3px;overflow:hidden;background:#111;
+    aspect-ratio:16/9;display:flex;align-items:center;justify-content:center;}
+  .lightbox-video video{width:100%;height:100%;object-fit:cover}
+  .lightbox-video-note{font-family:var(--mono);font-size:11px;color:var(--muted);
+    letter-spacing:.06em;text-align:center;margin-top:8px;margin-bottom:24px;}
+  .lightbox-right{position:sticky;top:20px;}
+  .lightbox-persona{width:100%;border-radius:3px;overflow:hidden;
+    box-shadow:0 4px 20px rgba(22,20,15,.12);}
+  .lightbox-persona img{width:100%;display:block;}
+  .persona-upsell{margin-top:16px;padding:14px 16px;
+    background:var(--paper-2);border-left:2px solid var(--hanko);border-radius:2px;}
+  .persona-upsell p{font-family:var(--mono);font-size:11.5px;color:var(--muted);
+    line-height:1.7;letter-spacing:.02em;}
+  .persona-upsell strong{color:var(--ink);font-weight:700;}
+  .lightbox-cta{margin-top:32px;text-align:center;border-top:1px solid var(--line);padding-top:28px;}
+  @media(max-width:860px){
+    .lightbox-content{grid-template-columns:1fr}
+    .lightbox-right{position:static}
+    .lightbox-box{padding:28px 20px 36px}}
+  @media(max-width:600px){.lightbox-gallery{grid-template-columns:repeat(2,1fr)}}
+
+  /* ── Zoom ── */
+  .zoom-overlay{display:none;position:fixed;inset:0;z-index:300;
+    background:rgba(22,20,15,.95);align-items:center;justify-content:center;
+    cursor:zoom-out;padding:32px;}
+  .zoom-overlay.open{display:flex}
+  .zoom-overlay img{max-width:100%;max-height:100%;object-fit:contain;border-radius:2px;}
+
+  /* ── Social Proof ── */
+  .proof{background:#3D1A0F;border-bottom:none;}
+  .proof h2{color:var(--paper);}
+  .proof .sec-label{color:rgba(192,57,43,.85);}
+  .proof-card{display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center;
+    max-width:760px;margin:0 auto;}
+  .proof-logo{width:96px;height:96px;flex-shrink:0;
+    background:rgba(252,252,250,.08);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;padding:8px;}
+  .proof-logo img{width:100%;height:100%;object-fit:contain;border-radius:50%;}
+  .proof-quote{font-family:var(--display);font-size:clamp(1.1rem,2vw,1.4rem);
+    font-style:italic;color:var(--paper);line-height:1.6;margin-bottom:16px;}
+  .proof-attr{font-family:var(--mono);font-size:12px;letter-spacing:.10em;
+    color:rgba(252,252,250,.55);}
+
+  /* ── Pricing ── */
+  .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}
+  .tier{border:1px solid var(--line);border-radius:3px;padding:36px 28px;
+    display:flex;flex-direction:column;background:var(--paper)}
+  .tier.featured{border:2px solid var(--ink);position:relative}
+  .tier.featured::after{content:"EINSTIEG";position:absolute;top:-11px;left:28px;
+    background:var(--hanko);color:#fff;font-family:var(--mono);
+    font-size:10px;letter-spacing:.18em;padding:4px 10px;border-radius:2px;}
+  .tier-name{font-family:var(--mono);font-size:13px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--muted)}
+  .tier-price{font-family:var(--display);font-size:2.4rem;font-weight:500;margin:14px 0 4px}
+  .tier-price span{font-family:var(--mono);font-size:13px;color:var(--muted);font-weight:400}
+  .tier ul{list-style:none;margin:24px 0;flex:1}
+  .tier li{padding:9px 0;border-top:1px solid var(--line);font-size:15px;font-weight:400}
+  .tier li:first-child{border-top:none}
+  .tier-note{font-family:var(--mono);font-size:11.5px;color:var(--muted);
+    line-height:1.7;margin-bottom:24px}
+  .tier .btn-primary{background:var(--ink);color:var(--paper);}
+  .tier .btn-primary:hover{box-shadow:0 6px 20px rgba(22,20,15,.18);}
+  .tier .btn{width:100%;text-align:center;margin-top:auto}
+  .capacity{margin-top:40px;text-align:center;font-family:var(--mono);
+    font-size:13px;color:var(--muted);letter-spacing:.04em;}
+  @media(max-width:880px){.price-grid{grid-template-columns:1fr;max-width:440px;
+    margin-left:auto;margin-right:auto}}
+
+  /* ── Contact ── */
+  .contact{text-align:center;border-bottom:none}
+  .contact h2{margin-bottom:12px}
+  .contact p{color:var(--muted);max-width:48ch;margin:0 auto 36px;font-weight:400;font-size:17px}
+
+  /* ── Footer ── */
+  footer{background:#3D1A0F;color:rgba(252,252,250,.65);padding:56px 0 0;font-size:14px}
+  footer .wrap{display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px}
+  footer h3{font-family:var(--mono);font-size:12px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--paper);margin-bottom:14px}
+  footer a{color:rgba(252,252,250,.85)}
+  .legal{font-family:var(--mono);font-size:12px;line-height:2}
+  .footer-links{margin-top:24px;display:flex;gap:20px}
+  .footer-links a{font-family:var(--mono);font-size:11px;letter-spacing:.10em;
+    color:rgba(252,252,250,.5);text-decoration:none;
+    border-bottom:1px solid rgba(252,252,250,.2);padding-bottom:1px;transition:color .15s;}
+  .footer-links a:hover{color:rgba(252,252,250,.85)}
+  .footer-bottom{margin-top:40px;padding:24px;
+    border-top:1px solid rgba(252,252,250,.08);text-align:center;}
+  .footer-tagline{font-family:var(--display);font-size:1.3rem;font-style:italic;
+    color:rgba(252,252,250,.88);letter-spacing:.02em;display:block;margin-bottom:8px;}
+  .footer-copy{font-family:var(--mono);font-size:11px;
+    color:rgba(252,252,250,.28);letter-spacing:.06em;display:block;}
+  @media(max-width:880px){
+    .hero-content{max-width:100%}
+    .proof-card{grid-template-columns:1fr;text-align:center}
+    .proof-logo{margin:0 auto}
+    footer .wrap{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top">
+      <span class="seal">浪人</span>
+      <span class="brand-name">Ronin Animatics</span>
+    </a>
+    <div class="nav-right">
+      <div class="lang-toggle">
+        <button class="lang-btn active" onclick="setLang('de')" id="btn-de">DE</button>
+        <span style="color:var(--line);font-size:12px;">|</span>
+        <button class="lang-btn" onclick="setLang('en')" id="btn-en">EN</button>
+      </div>
+      <a class="cta-mini" href="https://calendly.com/ronin-animatics" target="_blank" rel="noopener">
+        <span data-de>Briefing-Gespräch vereinbaren</span>
+        <span data-en>Book a Briefing Call</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- ── HERO ── -->
+<section class="hero" id="top">
+  <div class="hero-bg">
+    <img src="hero.jpeg" alt="Ronin Animatics — Brand Face Atelier">
+  </div>
+  <div class="wrap">
+    <div class="hero-content reveal">
+      <p class="eyebrow">
+        <span data-de>Virtuelles Model-Atelier — Köln</span>
+        <span data-en>Virtual Brand Face Atelier — Cologne</span>
+      </p>
+      <h1>
+        <span data-de>Ein Gesicht.<br><em>Unendlich viele Momente.</em><br>Nur für Ihre Marke.</span>
+        <span data-en>One Face.<br><em>Infinite Moments.</em><br>Exclusively Yours.</span>
+      </h1>
+      <p class="hero-sub">
+        <span data-de>Ihr exklusives Markengesicht. Einmal erschaffen, für jede Kampagne — ohne Shooting, ohne Logistik, ohne Bildrechte-Überraschungen.</span>
+        <span data-en>Your exclusive brand face. Created once, deployed across every campaign — no shootings, no logistics, no licensing surprises.</span>
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="https://calendly.com/ronin-animatics" target="_blank" rel="noopener">
+          <span data-de>Briefing-Gespräch vereinbaren</span>
+          <span data-en>Book a Briefing Call</span>
+        </a>
+        <a class="btn btn-secondary" href="#roster">
+          <span data-de>Charaktere entdecken</span>
+          <span data-en>Discover Characters</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STATEMENT ── -->
+<section class="statement">
+  <div class="wrap">
+    <div class="statement-grid">
+      <div>
+        <p class="sec-label reveal"><span data-de>Das Atelier</span><span data-en>The Atelier</span></p>
+        <p class="lead reveal reveal-delay-1">
+          <span data-de>Ronin Animatics entwickelt virtuelle Markengesichter für Modemarken im DACH-Raum. Jedes Gesicht wird einmal erschaffen — und bleibt über alle Kampagnen hinweg konsistent. Keine Buchungen. Keine Logistik. Keine Überraschungen.</span>
+          <span data-en>Ronin Animatics crafts virtual brand faces for fashion brands across the DACH region. Each face is created once — and remains consistent across every campaign. No bookings. No logistics. No surprises.</span>
+        </p>
+        <p class="honesty reveal reveal-delay-2">
+          <span data-de>Wir behaupten nicht, dass unsere Charaktere echte Menschen sind. Die Ehrlichkeit gehört zu unserer Arbeit — und unsere Modelle tragen bewusst menschliche Mikro-Details, weil Perfektion vergessen wird.</span>
+          <span data-en>We don't pretend our characters are real people. Honesty is part of our work — and our models carry deliberate human micro-details, because flawless is forgettable.</span>
+        </p>
+      </div>
+      <div class="statement-video reveal reveal-delay-1">
+        <video autoplay muted loop playsinline>
+          <source src="atelier_loop.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ATMOSPHERE BANNER ── -->
+<div class="banner reveal">
+  <img src="banner.jpeg" alt="Ronin Animatics Atelier">
+</div>
+
+<!-- ── PROZESS ── -->
+<section>
+  <div class="wrap">
+    <p class="sec-label reveal"><span data-de>So funktioniert es</span><span data-en>How It Works</span></p>
+    <h2 class="reveal"><span data-de>Vom Entwurf zur Kampagne — in 7 Tagen</span><span data-en>From Concept to Campaign — in 7 Days</span></h2>
+    <div class="prozess-grid">
+      <div class="prozess-step reveal reveal-delay-1">
+        <div class="prozess-num">1</div>
+        <h3><span data-de>Auswahl &amp; Design</span><span data-en>Selection &amp; Design</span></h3>
+        <p>
+          <span data-de>Wählen Sie ein Gesicht aus unserem Katalog oder lassen Sie uns eine exklusive Persona erschaffen, die exakt zu Ihrer Zielgruppe passt.</span>
+          <span data-en>Choose a face from our roster or let us craft an exclusive persona tailored precisely to your target audience.</span>
+        </p>
+      </div>
+      <div class="prozess-step reveal reveal-delay-2">
+        <div class="prozess-num">2</div>
+        <h3><span data-de>Digitales Fitting</span><span data-en>Digital Fitting</span></h3>
+        <p>
+          <span data-de>Sie senden uns Ihre Kollektions-Designs und Moodboards. Wir integrieren Ihre Markenästhetik nahtlos in Ihr Markengesicht — fotorealistisch, kampagnenbereit.</span>
+          <span data-en>Send us your collection designs and moodboards. We seamlessly integrate your brand aesthetic into your brand face — photorealistic, campaign-ready.</span>
+        </p>
+      </div>
+      <div class="prozess-step reveal reveal-delay-3">
+        <div class="prozess-num">3</div>
+        <h3><span data-de>Kampagnen-Übergabe</span><span data-en>Campaign Delivery</span></h3>
+        <p>
+          <span data-de>Innerhalb von 7 Tagen erhalten Sie Ihre hochauflösenden, lizenzfreien Bild- und Video-Assets — bereit für Web, Social Media und Print. Im Preis enthalten: 2 Feedback-Runden.</span>
+          <span data-en>Within 7 days you receive your high-resolution, license-free image and video assets — ready for web, social media and print. Two revision rounds included.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ROSTER ── -->
+<section class="roster" id="roster">
+  <div class="wrap">
+    <p class="sec-label reveal"><span data-de>Das Casting Board</span><span data-en>The Casting Board</span></p>
+    <h2 class="reveal"><span data-de>Gesichter im Atelier</span><span data-en>Faces in the Atelier</span></h2>
+    <div class="roster-grid">
+
+      <article class="card reveal" onclick="openLightbox('sofia')">
+        <div class="card-photo"><img src="sofia.jpeg" alt="Sofia Vidal"></div>
+        <div class="card-meta">
+          <p class="card-name">Sofia Vidal</p>
+          <p class="card-tags">Madrid · Fashion</p>
+        </div>
+        <span class="card-stamp">RA</span>
+      </article>
+
+      <article class="card reveal reveal-delay-1" onclick="openLightbox('sherry')">
+        <div class="card-photo"><img src="sherry.jpeg" alt="Sherry Parhami"></div>
+        <div class="card-meta">
+          <p class="card-name">Sherry Parhami</p>
+          <p class="card-tags">Köln · Skincare</p>
+        </div>
+        <span class="card-stamp">RA</span>
+      </article>
+
+      <article class="card reveal reveal-delay-2" onclick="openLightbox('lena')">
+        <div class="card-photo"><img src="lena.jpeg" alt="Lena Brandt"></div>
+        <div class="card-meta">
+          <p class="card-name">Lena Brandt</p>
+          <p class="card-tags">Hamburg · Lifestyle</p>
+        </div>
+        <span class="card-stamp">RA</span>
+      </article>
+
+      <article class="card reveal" onclick="openLightbox('dara')">
+        <div class="card-photo"><img src="dara.jpeg" alt="Dara"></div>
+        <div class="card-meta">
+          <p class="card-name">Dara</p>
+          <p class="card-tags">Berlin · Menswear</p>
+        </div>
+        <span class="card-stamp">RA</span>
+      </article>
+
+      <article class="card reveal reveal-delay-1" onclick="openLightbox('amara')">
+        <div class="card-photo"><img src="amara.jpeg" alt="Amara Voss"></div>
+        <div class="card-meta">
+          <p class="card-name">Amara Voss</p>
+          <p class="card-tags">Dubai · Athleisure</p>
+        </div>
+        <span class="card-stamp">RA</span>
+      </article>
+
+      <article class="card reveal reveal-delay-2" onclick="openLightbox('mei')">
+        <div class="card-photo"><img src="mei.jpeg" alt="Mei Lin"></div>
+        <div class="card-meta">
+          <p class="card-name">Mei Lin</p>
+          <p class="card-tags">Singapur · Clean Beauty</p>
+        </div>
+        <span class="card-stamp">RA</span>
+      </article>
+
+      <article class="card reveal" onclick="openLightbox('anders')">
+        <div class="card-photo"><img src="anders.jpeg" alt="Anders Holt"></div>
+        <div class="card-meta">
+          <p class="card-name">Anders Holt</p>
+          <p class="card-tags">Kopenhagen · Men's Grooming</p>
+        </div>
+        <span class="card-stamp">RA</span>
+      </article>
+
+      <article class="card reveal reveal-delay-1" onclick="openLightbox('malik')">
+        <div class="card-photo"><img src="malik.jpeg" alt="Malik Okonkwo"></div>
+        <div class="card-meta">
+          <p class="card-name">Malik Okonkwo</p>
+          <p class="card-tags">London · Tailoring</p>
+        </div>
+        <span class="card-stamp">RA</span>
+      </article>
+
+      <article class="card reveal reveal-delay-2" onclick="openLightbox('homero')">
+        <div class="card-photo"><img src="homero.jpeg" alt="Homero Vidal"></div>
+        <div class="card-meta">
+          <p class="card-name">Homero Vidal</p>
+          <p class="card-tags">Zürich · Silver Luxury</p>
+        </div>
+        <span class="card-stamp">RA</span>
+      </article>
+
+      <article class="card commission reveal reveal-delay-3">
+        <p class="big">+5</p>
+        <p>
+          <span data-de>in Entwicklung — oder wir erschaffen Ihr Markengesicht exklusiv auf Anfrage.</span>
+          <span data-en>in development — or we craft your brand face exclusively on request.</span>
+        </p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── LIGHTBOX ── -->
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightboxOnBg(event)">
+  <div class="lightbox-box">
+    <button class="lightbox-close" onclick="closeLightbox()" aria-label="Schließen">×</button>
+    <div class="lightbox-header">
+      <p class="lightbox-name" id="lb-name"></p>
+      <p class="lightbox-tags" id="lb-tags"></p>
+    </div>
+    <div class="lightbox-content">
+      <div class="lightbox-left">
+        <div class="lightbox-gallery" id="lb-gallery"></div>
+        <div class="lightbox-video">
+          <video id="lb-video" autoplay muted loop playsinline></video>
+        </div>
+        <p class="lightbox-video-note">Loop-Video — Platzhalter für späteres Asset</p>
+      </div>
+      <div class="lightbox-right">
+        <div class="lightbox-persona">
+          <img id="lb-persona" src="" alt="Character Persona">
+        </div>
+        <div class="persona-upsell">
+          <p>Die vollständige <strong>Persona-Dokumentation</strong> — Identity Core, Commercial Positioning und Production Rules — ist Bestandteil des <strong>Starter- und Growth-Retainers.</strong></p>
+        </div>
+      </div>
+    </div>
+    <div class="lightbox-cta">
+      <a class="btn btn-primary" href="https://calendly.com/ronin-animatics" target="_blank" rel="noopener" style="background:var(--ink);">Briefing-Gespräch vereinbaren</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── ZOOM ── -->
+<div class="zoom-overlay" id="zoom-overlay" onclick="closeZoom()">
+  <img id="zoom-img" src="" alt="">
+</div>
+
+<!-- ── SOCIAL PROOF ── -->
+<section class="proof">
+  <div class="wrap">
+    <p class="sec-label reveal"><span data-de>Vertrauen</span><span data-en>Trust</span></p>
+    <h2 class="reveal"><span data-de>Erste Stimmen aus dem Atelier</span><span data-en>First Voices from the Atelier</span></h2>
+    <div class="proof-card reveal">
+      <div class="proof-logo">
+        <img src="beauty_colonia_logo.png" alt="Beauty Colonia Logo">
+      </div>
+      <div>
+        <p class="proof-quote">"Mit Sherry baut Ronin Animatics mir mein Traumleben — ein Gesicht das meine Marke verkörpert, ohne dass ich jemals ein Shooting organisieren musste."</p>
+        <p class="proof-attr">— PARI · INHABERIN · BEAUTY COLONIA, KÖLN</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICING ── -->
+<section id="pricing">
+  <div class="wrap">
+    <p class="sec-label reveal"><span data-de>Angebote</span><span data-en>Pricing</span></p>
+    <h2 class="reveal"><span data-de>Drei Wege, mit uns zu arbeiten</span><span data-en>Three Ways to Work With Us</span></h2>
+    <div class="price-grid">
+      <div class="tier featured reveal">
+        <p class="tier-name">Lighthouse-Projekt</p>
+        <p class="tier-price">€800 <span>einmalig</span></p>
+        <ul>
+          <li>1 Markengesicht, exklusiv für Sie</li>
+          <li>5 Carousel-Slides</li>
+          <li>1 Reel</li>
+          <li>Lieferung in 7 Tagen</li>
+        </ul>
+        <p class="tier-note">100% im Voraus. Ihr Proof of Concept — sehen Sie Ihr Markengesicht, bevor Sie mehr investieren.</p>
+        <a class="btn btn-primary" href="https://calendly.com/ronin-animatics" target="_blank" rel="noopener">Briefing-Gespräch vereinbaren</a>
+      </div>
+      <div class="tier reveal reveal-delay-1">
+        <p class="tier-name">Starter-Retainer</p>
+        <p class="tier-price">€1.500 <span>/ Monat</span></p>
+        <ul>
+          <li>Laufender Content mit Ihrem Markengesicht</li>
+          <li>Monatliche Carousel- &amp; Reel-Produktion</li>
+          <li>Ein konsistentes Gesicht, jede Kampagne</li>
+          <li>Vollständige Persona-Dokumentation</li>
+        </ul>
+        <p class="tier-note">Mind. 3 Monate · 50/50 Zahlungsbedingungen.</p>
+        <a class="btn btn-primary" href="https://calendly.com/ronin-animatics" target="_blank" rel="noopener">Briefing-Gespräch vereinbaren</a>
+      </div>
+      <div class="tier reveal reveal-delay-2">
+        <p class="tier-name">Growth-Retainer</p>
+        <p class="tier-price">€3.500 <span>/ Monat</span></p>
+        <ul>
+          <li>Vollständiges Content-Programm</li>
+          <li>Mehrere Gesichter oder Formate</li>
+          <li>Prioritäts-Produktionsslot</li>
+          <li>Vollständige Persona-Dokumentation</li>
+        </ul>
+        <p class="tier-note">Mind. 3 Monate · 50/50 Zahlungsbedingungen.</p>
+        <a class="btn btn-primary" href="https://calendly.com/ronin-animatics" target="_blank" rel="noopener">Briefing-Gespräch vereinbaren</a>
+      </div>
+    </div>
+    <p class="capacity reveal">Qualität skaliert mit Aufmerksamkeit — und Aufmerksamkeit hat Grenzen.<br>Wir nehmen pro Quartal nur eine begrenzte Anzahl an Marken auf.</p>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section class="contact reveal">
+  <div class="wrap">
+    <p class="sec-label"><span data-de>Kontakt</span><span data-en>Contact</span></p>
+    <h2><span data-de>Sprechen wir über das Gesicht Ihrer Marke</span><span data-en>Let's Talk About Your Brand Face</span></h2>
+    <p>
+      <span data-de>Eine Nachricht genügt. Wir sagen Ihnen ehrlich, ob Ihre Marke zu uns passt — und wie Ihr Lighthouse-Projekt aussehen würde.</span>
+      <span data-en>One message is enough. We'll tell you honestly whether your brand is a fit — and what your Lighthouse Project would look like.</span>
+    </p>
+    <a class="btn btn-primary" href="https://calendly.com/ronin-animatics" target="_blank" rel="noopener" style="background:var(--ink);">
+      <span data-de>Briefing-Gespräch vereinbaren</span>
+      <span data-en>Book a Briefing Call</span>
+    </a>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="wrap">
+    <div>
+      <h3>Ronin Animatics</h3>
+      <p>Virtuelles Model-Atelier<br>Köln, Deutschland</p>
+      <p style="margin-top:14px"><a href="https://www.linkedin.com/company/ronin-animatics" rel="noopener">LinkedIn →</a></p>
+      <div class="footer-links">
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
+      </div>
+    </div>
+    <div></div>
+    <div class="legal">
+      <h3>Impressum</h3>
+      <p>
+        Homayoun Haghgoo — Ronin Animatics<br>
+        Eulenbergstraße 46<br>
+        51065 Köln<br>
+        E-Mail: ronin.animatics@gmail.com<br>
+        Kleinunternehmer gem. §19 UStG —<br>kein Ausweis von Umsatzsteuer.
+      </p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-tagline">Crafted with intention. Delivered with precision.</span>
+    <span class="footer-copy">© 2026 Ronin Animatics</span>
+  </div>
+</footer>
+
+<!-- ── JAVASCRIPT ── -->
+<script>
+  // Language Toggle
+  function setLang(lang) {
+    document.body.className = document.body.className
+      .replace(/lang-\w+/g, '').trim();
+    document.body.classList.add('lang-' + lang);
+    document.getElementById('btn-de').classList.toggle('active', lang === 'de');
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    localStorage.setItem('ra-lang', lang);
+  }
+  // Init language
+  const savedLang = localStorage.getItem('ra-lang') || 'de';
+  setLang(savedLang);
+
+  // Scroll Reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Characters
+  const characters = {
+    sofia:  { name:'Sofia Vidal',    tags:'Madrid · Fashion',            images:['sofia_pose2.jpeg','sofia_pose3.jpeg','sofia_pose4.jpeg'],    video:'sofia_loop.mp4',   persona:'sofia_persona.jpeg' },
+    sherry: { name:'Sherry Parhami', tags:'Köln · Skincare',             images:['sherry_pose2.jpeg','sherry_pose3.jpeg','sherry_pose4.jpeg'], video:'sherry_loop.mp4',  persona:'sherry_persona.jpeg' },
+    lena:   { name:'Lena Brandt',    tags:'Hamburg · Lifestyle',         images:['lena_pose2.jpeg','lena_pose3.jpeg','lena_pose4.jpeg'],       video:'lena_loop.mp4',    persona:'lena_persona.jpeg' },
+    dara:   { name:'Dara',           tags:'Berlin · Menswear',           images:['dara_pose2.jpeg','dara_pose3.jpeg','dara_pose4.jpeg'],       video:'dara_loop.mp4',    persona:'dara_persona.jpeg' },
+    amara:  { name:'Amara Voss',     tags:'Dubai · Athleisure',          images:['amara_pose2.jpeg','amara_pose3.jpeg','amara_pose4.jpeg'],    video:'amara_loop.mp4',   persona:'amara_persona.jpeg' },
+    mei:    { name:'Mei Lin',        tags:'Singapur · Clean Beauty',     images:['mei_pose2.jpeg','mei_pose3.jpeg','mei_pose4.jpeg'],          video:'mei_loop.mp4',     persona:'mei_persona.jpeg' },
+    anders: { name:'Anders Holt',    tags:"Kopenhagen · Men's Grooming", images:['anders_pose2.jpeg','anders_pose3.jpeg','anders_pose4.jpeg'], video:'anders_loop.mp4',  persona:'anders_persona.jpeg' },
+    malik:  { name:'Malik Okonkwo',  tags:'London · Tailoring',          images:['malik_pose2.jpeg','malik_pose3.jpeg','malik_pose4.jpeg'],    video:'malik_loop.mp4',   persona:'malik_persona.jpeg' },
+    homero: { name:'Homero Vidal',   tags:'Zürich · Silver Luxury',      images:['homero_pose2.jpeg','homero_pose3.jpeg','homero_pose4.jpeg'], video:'homero_loop.mp4',  persona:'homero_persona.jpeg' },
+  };
+
+  function openLightbox(id) {
+    const c = characters[id];
+    if (!c) return;
+    document.getElementById('lb-name').textContent = c.name;
+    document.getElementById('lb-tags').textContent = c.tags;
+    const gallery = document.getElementById('lb-gallery');
+    gallery.innerHTML = c.images.map(src =>
+      `<img src="${src}" alt="${c.name}" onclick="openZoom('${src}','${c.name}')">`
+    ).join('');
+    const persona = document.getElementById('lb-persona');
+    persona.src = c.persona;
+    persona.alt = c.name + ' Persona';
+    const video = document.getElementById('lb-video');
+    if (c.video) {
+      video.src = c.video;
+      video.load();
+      video.play().catch(() => {});
+      video.parentElement.style.display = 'flex';
+    } else {
+      video.src = '';
+      video.parentElement.style.display = 'none';
+    }
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+    const video = document.getElementById('lb-video');
+    video.pause(); video.src = '';
+  }
+
+  function closeLightboxOnBg(e) {
+    if (e.target === document.getElementById('lightbox')) closeLightbox();
+  }
+
+  function openZoom(src, alt) {
+    document.getElementById('zoom-img').src = src;
+    document.getElementById('zoom-img').alt = alt;
+    document.getElementById('zoom-overlay').classList.add('open');
+  }
+
+  function closeZoom() {
+    document.getElementById('zoom-overlay').classList.remove('open');
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeZoom(); closeLightbox(); }
+  });
+</script>
+</body>
+</html>
